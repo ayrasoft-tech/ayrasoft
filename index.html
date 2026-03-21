@@ -1,561 +1,781 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AyraSoft | Digital Architects</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Endoroot Dental Clinic – Premium dental care in Mannoor. Offering a full range of dental services in a modern, comfortable environment." />
+  <title>Endoroot Dental Clinic | Mannoor</title>
+  
+  <meta name="keywords" content="Best Dental Clinic Mannoor, Dentist in Muvattupuzha, Root Canal Treatment Ernakulam, Dr. Alka Elza Prakash, Dental Implants Kerala, Endoroot Dental Clinic" />
+  <meta name="author" content="Endoroot Dental Clinic" />
+  <meta name="robots" content="index, follow" />
+  
+  <link rel="canonical" href="https://endoroot.in/" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://endoroot.in/" />
+  <meta property="og:title" content="Endoroot Dental Clinic | Premium Dental Care in Mannoor" />
+  <meta property="og:description" content="Endoroot Dental Clinic is Mannoor's premier destination for advanced dental solutions. Led by Dr. Alka Elza Prakash. Book your appointment today." />
+  <meta property="og:image" content="https://endoroot.in/images/sofainteriour%20horiz.jpeg" />
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            black: '#111111',
-                            gray: '#F5F5F7',
-                            accent: '#007AFF',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    boxShadow: {
-                        'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.05)',
-                    }
-                }
-            }
-        }
-    </script>
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://endoroot.in/" />
+  <meta property="twitter:title" content="Endoroot Dental Clinic | Premium Dental Care in Mannoor" />
+  <meta property="twitter:description" content="Endoroot Dental Clinic is Mannoor's premier destination for advanced dental solutions. Led by Dr. Alka Elza Prakash. Book your appointment today." />
+  <meta property="twitter:image" content="https://endoroot.in/images/sofainteriour%20horiz.jpeg" />
 
-    <style>
-        body {
-            background-color: #ffffff;
-            color: #111111;
-            overflow-x: hidden;
-        }
-        
-        /* Minimalist Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #ffffff; }
-        ::-webkit-scrollbar-thumb { background: #e5e5e5; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #007AFF; }
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dentist",
+    "name": "Endoroot Dental Clinic",
+    "image": "https://endoroot.in/images/logo.png",
+    "@id": "https://endoroot.in/",
+    "url": "https://endoroot.in/",
+    "telephone": "+919746798966",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Ground Floor, Kuttikattil Building, M.C Road, Near Smart Textiles",
+      "addressLocality": "Mannoor, Airapuram P.O, Ernakulam",
+      "addressRegion": "Kerala",
+      "postalCode": "683541", 
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 10.0886, 
+      "longitude": 76.5458
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "09:00",
+      "closes": "19:00"
+    },
+    "sameAs": [
+      "https://www.instagram.com/endoroot_dental_clinic"
+    ]
+  }
+  </script>
 
-        /* 3D Canvas positioning */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
-            opacity: 1;
-            pointer-events: none;
-        }
-
-        .hover-underline-animation {
-            display: inline-block;
-            position: relative;
-        }
-        .hover-underline-animation::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 1px;
-            bottom: 0;
-            left: 0;
-            background-color: #000;
-            transform-origin: bottom right;
-            transition: transform 0.25s ease-out;
-        }
-        .hover-underline-animation:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-
-        /* Typewriter Cursor Effect */
-        .cursor-blink {
-            display: inline-block;
-            width: 3px;
-            background-color: #000;
-            animation: blink 1s step-end infinite;
-            vertical-align: middle;
-            height: 1em; 
-            margin-left: 5px;
-        }
-
-        @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-        }
-    </style>
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="antialiased selection:bg-black selection:text-white">
 
-    <div id="canvas-container"></div>
+<body>
 
-    <nav class="fixed w-full z-50 top-0 left-0 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <img src="images/logo.png" alt="Endoroot Dental Clinic Logo" />
+        <span class="nav-brand">
+          <span class="brand-main">Endoroot</span>
+          <span class="brand-sub">Dental Clinic</span>
+        </span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#appointment">Appointment</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="https://wa.me/919746798966?text=Hi%2C%20I%20want%20to%20book%20an%20Appointment" target="_blank"
+        rel="noopener" class="btn btn-primary nav-cta">Book Now</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="images/sofainteriour horiz.jpeg" alt="Endoroot Dental Clinic Reception" class="hero-img" />
+      <div class="hero-overlay"></div>
+    </div>
+    <!-- Floating particles -->
+    <div class="hero-particles" aria-hidden="true">
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">&#10022; Premium Dental Care &middot; Mannoor</div>
+      <h1 class="hero-title">
+        Smiles Rooted<br />
+        <em>in Care</em>
+      </h1>
+      <p class="hero-subtitle">
+        Experience dentistry in a warm, welcoming space.<br />
+        Where every smile is treated with precision, comfort, and compassion.
+      </p>
+      <div class="hero-actions">
+        <a href="https://wa.me/919746798966?text=Hi%2C%20I%20want%20to%20book%20an%20Appointment" target="_blank"
+          rel="noopener" class="btn btn-primary btn-lg">Book an Appointment</a>
+        <a href="#services" class="btn btn-ghost btn-lg">Our Services</a>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+ <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-images reveal reveal-left">
+          <div class="about-img-main">
+            <img src="images/dr-alka.jpeg" alt="Dr. Alka Elza Prakash" />
             
-            <a href="#" class="font-mono text-xl font-bold tracking-tighter text-black flex items-center gap-2">
-                <div class="w-3 h-3 bg-black rounded-full"></div>
-                AYRASOFT
-            </a>
-
-            <div class="hidden md:flex space-x-10 text-sm font-medium text-gray-500">
-                <a href="#services" class="hover:text-black transition-colors hover-underline-animation">Services</a>
-                <a href="#products" class="hover:text-black transition-colors hover-underline-animation">Portfolio</a>
-                <a href="#about" class="hover:text-black transition-colors hover-underline-animation">About</a>
-                <a href="#contact" class="hover:text-black transition-colors hover-underline-animation">Contact</a>
+            <div class="doctor-caption">
+              <h3 class="doctor-name">Dr. Alka Elza Prakash</h3>
+              <p class="doctor-title">Chief Dental Surgeon</p>
             </div>
+          </div>
+        </div>
+        <div class="about-text reveal reveal-right">
+          <div class="section-label">About Us</div>
+          <h2 class="section-title">Exceptional Care Led by Expertise</h2>
+          <p class="about-desc">
+            Led by our Chief Dental Surgeon, <strong>Dr. Alka Elza Prakash</strong>, Endoroot Dental Clinic is Mannoor's premier destination for comprehensive dental health. Our team combines cutting-edge technology with a patient-first philosophy to deliver treatments that are as comfortable as they are effective.
+          </p>
+          <p class="about-desc">
+            From routine check-ups to complex restorative procedures, we provide personalised care in a serene, state-of-the-art facility designed to put you completely at ease.
+          </p>
+          <ul class="about-features">
+            <li>
+              <div class="feature-icon">✓</div>
+              <span>Advanced digital X-ray & imaging technology</span>
+            </li>
+            <li>
+              <div class="feature-icon">✓</div>
+              <span>Sterilised, hygienic treatment environments</span>
+            </li>
+            <li>
+              <div class="feature-icon">✓</div>
+              <span>Certified specialist dentists & support staff</span>
+            </li>
+            <li>
+              <div class="feature-icon">✓</div>
+              <span>Flexible appointment scheduling</span>
+            </li>
+          </ul>
+          <a href="https://wa.me/919746798966?text=Hi%2C%20I%20want%20to%20book%20an%20Appointment" target="_blank"
+            rel="noopener" class="btn btn-primary">Schedule a Visit</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <a href="https://wa.me/917306201272" 
-               target="_blank" 
-               class="hidden md:block px-6 py-2.5 bg-black text-white rounded-full hover:bg-brand-accent hover:scale-105 transition-all duration-300 text-sm font-medium shadow-lg shadow-black/10">
-                Let's Talk
-            </a>
+  <!-- ===== SERVICES ===== -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">What We Offer</div><br>
+        <h2 class="section-title">Comprehensive Dental Services</h2>
+        <p class="section-subtitle">From prevention to perfection — everything your smile needs under one roof.</p>
+      </div>
+      <div class="services-grid">
 
-            <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5 focus:outline-none">
-                <span class="block w-6 h-0.5 bg-black transition-all duration-300"></span>
-                <span class="block w-6 h-0.5 bg-black transition-all duration-300"></span>
-                <span class="block w-6 h-0.5 bg-black transition-all duration-300"></span>
-            </button>
+        <!-- Root Canal -->
+        <div class="service-card reveal-scale" data-delay="0">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="14" y="4" width="20" height="22" rx="10" fill="currentColor" opacity="0.15" />
+              <rect x="14" y="4" width="20" height="22" rx="10" stroke="currentColor" stroke-width="2.2" />
+              <path d="M18 26 L16 44" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+              <path d="M24 28 L24 44" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+              <path d="M30 26 L32 44" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+              <line x1="14" y1="18" x2="34" y2="18" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"
+                opacity="0.55" />
+            </svg>
+          </div>
+          <h3>Root Canal Treatment</h3>
+          <p>Expert endodontic therapy to save infected teeth with minimal discomfort using the latest techniques.</p>
         </div>
 
-        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 p-6 flex-col space-y-4 md:hidden shadow-xl">
-            <a href="#services" class="text-lg font-medium text-black">Services</a>
-            <a href="#products" class="text-lg font-medium text-black">Work</a>
-            <a href="#about" class="text-lg font-medium text-black">About</a>
-            <a href="#contact" class="text-lg font-medium text-black">Contact</a>
-            <hr class="border-gray-100">
-            <a href="https://wa.me/917306201272" target="_blank" class="block w-full text-center px-6 py-3 bg-black text-white rounded-full font-medium">
-                Let's Talk
-            </a>
+        <!-- Dental Implants -->
+        <div class="service-card reveal-scale" data-delay="320">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="12" y="5" width="24" height="15" rx="7.5" fill="currentColor" opacity="0.15"
+                stroke="currentColor" stroke-width="2.2" />
+              <rect x="20" y="20" width="8" height="6" rx="2" fill="currentColor" opacity="0.5" stroke="currentColor"
+                stroke-width="1.8" />
+              <rect x="21" y="26" width="6" height="16" rx="3" fill="currentColor" opacity="0.3" stroke="currentColor"
+                stroke-width="1.8" />
+              <line x1="21" y1="29" x2="27" y2="29" stroke="currentColor" stroke-width="1.2" opacity="0.7" />
+              <line x1="21" y1="32" x2="27" y2="32" stroke="currentColor" stroke-width="1.2" opacity="0.7" />
+              <line x1="21" y1="35" x2="27" y2="35" stroke="currentColor" stroke-width="1.2" opacity="0.7" />
+              <line x1="21" y1="38" x2="27" y2="38" stroke="currentColor" stroke-width="1.2" opacity="0.7" />
+            </svg>
+          </div>
+          <h3>Dental Implants</h3>
+          <p>Permanent, lifelike tooth replacements that restore full function and confidence.</p>
         </div>
-    </nav>
-
-    <header id="about" class="relative min-h-screen flex items-center justify-center px-6 pt-24 md:pt-20">
-        <div class="text-center z-10 max-w-5xl">
-
-            <h1 class="gsap-hero opacity-0 translate-y-10 text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 text-black leading-none md:leading-[0.9]">
-                DIGITAL <br/> REALITIES.
-            </h1>
-            
-            <p class="gsap-hero opacity-0 translate-y-10 text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-                We bridge the gap between imagination and engineering. 
-                <span class="text-black font-medium">Immersive 3D, Web Apps, and Desktop Software.</span>
-            </p>
-            
-            <div class="gsap-hero opacity-0 translate-y-10 flex flex-col md:flex-row gap-4 justify-center items-center">
-                <a href="#products" class="group relative px-8 py-4 bg-black text-white rounded-full font-medium overflow-hidden w-full md:w-auto">
-                    <div class="absolute inset-0 w-full h-full bg-brand-accent transition-all duration-300 translate-y-full group-hover:translate-y-0"></div>
-                    <span class="relative z-10 flex items-center justify-center gap-2">
-                        View Work 
-                        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </span>
-                </a>
-                <a href="#services" class="px-8 py-4 text-black hover:text-brand-accent font-medium transition-colors w-full md:w-auto">
-                    Explore Services
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <section id="services" class="py-24 md:py-32 px-6 bg-brand-gray border-t border-gray-200">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-6">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-2">Services</h2>
-                    <p class="text-gray-500">Tailored digital solutions.</p>
-                </div>
-                <div class="hidden md:block h-px bg-gray-300 flex-grow md:max-w-md ml-8"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-
-                <a href="#products" class="service-card group block p-8 bg-white rounded-2xl border border-gray-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">3D & WebGL</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">
-                        Depth in a flat world. We utilize Blender and Three.js to build immersive web experiences that captivate users.
-                    </p>
-                </a>
-
-                <a href="#products" class="service-card group block p-8 bg-white rounded-2xl border border-gray-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Custom Web Apps</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">
-                        Performance meets aesthetics. Scalable applications built on React and Next.js, tailored to your business logic.
-                    </p>
-                </a>
-
-                <a href="#products" class="service-card group block p-8 bg-white rounded-2xl border border-gray-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Desktop Software</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">
-                        Native power. Cross-platform desktop solutions using Electron and Tauri for heavy-duty operational tasks.
-                    </p>
-                </a>
-                
-                <a href="#products" class="service-card group block p-8 bg-white rounded-2xl border border-gray-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Search Engine Optimization</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">
-                        Rise to the top. We implement data-driven SEO strategies to boost your visibility, rank higher, and drive organic traffic to your business.
-                    </p>
-                </a>
-
-                <a href="#products" class="service-card group block p-8 bg-white rounded-2xl border border-gray-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">E-commerce Application</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">
-                        Sell smarter. Scalable online stores with secure payment gateways, inventory management, and intuitive UX to convert visitors into customers.
-                    </p>
-                </a>
-
-                <a href="#products" class="service-card group block p-8 bg-white rounded-2xl border border-gray-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0c0 .884-.5 2-2 2h4c-1.5 0-2-1.116-2-2z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Personal Portfolio</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">
-                        Showcase your identity. Custom-designed, high-performance portfolios that tell your professional story and leave a lasting impression.
-                    </p>
-                </a>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="products" class="w-full bg-white py-24 px-4 md:px-8">
-        <div class="max-w-7xl mx-auto">
-            
-            <div class="mb-12 md:mb-16 min-h-[120px]">
-                <span class="font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">Our Portfolio</span>
-                <h2 id="typewriter-text" class="text-4xl md:text-6xl font-black text-black mt-2 leading-tight">
-                    </h2>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-
-                <div class="flex flex-col h-full">
-                    <h3 class="text-xl font-mono font-bold text-black border-b border-gray-100 pb-4 mb-6 md:mb-10">Application Development</h3>
-
-                    <div class="md:sticky md:top-24 bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-2xl flex flex-col group">
-                        
-                        <div class="w-full bg-gray-50 border-b border-gray-100">
-                             <iframe src="https://drive.google.com/file/d/1P645FIjCcwp6w8QC3Wt6g6dd2A7gtQ5Z/preview" class="w-full aspect-video transition-all duration-500" style="border:none;"></iframe>
-                        </div>
-                        
-                        <div class="p-6 md:p-8">
-                            <div class="flex flex-wrap items-center gap-3 mb-6">
-                                <span class="px-3 py-1 bg-black text-white text-[10px] font-mono tracking-widest uppercase rounded-full">Dental Suite</span>
-                                <span class="px-3 py-1 bg-green-100 text-green-700 border border-green-200 text-[10px] font-mono tracking-widest uppercase rounded-full flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                                    WhatsApp Integration
-                                </span>
-                            </div>
-
-                            <h3 class="text-3xl font-bold text-black mb-3">DentOS</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-6">
-                                A revolutionary practice management system. Features seamless patient history tracking, automated billing, and a smart WhatsApp API for automated appointment reminders.
-                            </p>
-                            
-                            <div class="mt-4">
-                                <a href="https://wa.me/917306201272?text=Hi,%20I%20would%20like%20to%20book%20a%2010-day%20free%20trial%20for%20DentOS" target="_blank" class="inline-flex items-center justify-center w-full px-6 py-3 text-sm font-bold text-white transition-all duration-300 bg-black rounded-full hover:bg-brand-accent hover:scale-[1.02] shadow-lg hover:shadow-brand-accent/25 group">
-                                    <span>Book a 10-Day Free Trial</span>
-                                    <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="flex flex-col gap-10">
-                    <h3 class="text-xl font-mono font-bold text-black border-b border-gray-100 pb-4">Web Design</h3>
-
-                    <div class="group">
-                        <div class="relative rounded-xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 transition-transform duration-500 hover:shadow-2xl">
-                            <iframe src="https://drive.google.com/file/d/1CXdtBdNndDrq-cm4HDm2GypWszaIaLq4/preview" class="w-full aspect-video transition-all duration-500" style="border:none;"></iframe>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="relative rounded-xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 transition-transform duration-500 hover:shadow-2xl">
-                             <iframe src="https://drive.google.com/file/d/11wB-AohWplUMOQN5R68XhNovFMgXfh3h/preview" class="w-full aspect-video transition-all duration-500" style="border:none;"></iframe>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="relative rounded-xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 transition-transform duration-500 hover:shadow-2xl">
-                            <iframe src="https://drive.google.com/file/d/1aW_6poSe1FSWM3_RsFBGJ5gjXss7NSrt/preview" class="w-full aspect-video transition-all duration-500" style="border:none;"></iframe>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="relative rounded-xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 transition-transform duration-500 hover:shadow-2xl">
-                            <iframe src="https://drive.google.com/file/d/1_hvqQDsSV1PrNwjIXBQbKrFWODw_N1Yh/preview" class="w-full aspect-video transition-all duration-500" style="border:none;"></iframe>
-                        </div>
-                    </div>
-                </div>
-
-                
-
-            </div>
-        </div>
-    </section>
-
-    <section id="clients" class="py-24 bg-gray-50 border-t border-gray-200">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-black">Trusted Clients</h2>
-            </div>
-
-           <div class="flex flex-wrap justify-center gap-8">
-
-    <!-- Card 1 -->
-    <a href="https://madukkakuzhy.vercel.app" target="_blank"
-       class="inline-flex flex-col items-center justify-center p-8 md:p-12 bg-white rounded-3xl shadow-soft border border-gray-100 transition-transform duration-500 hover:scale-105 w-64">
-
-        <div class="w-24 h-24 mb-6 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
-            <img src="madukkakuzhy.png" alt="Madukkakuzhy Dental Care Logo"
-                 class="w-16 h-16 object-contain mix-blend-multiply">
+         
+        <!-- Crowns & Bridges -->
+        <div class="service-card reveal-scale" data-delay="640">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="14" y="10" width="20" height="12" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <path d="M16 22 C16 32 14 38 14 38 L24 34 L34 38 C34 38 32 32 32 22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3>Crowns & Bridges</h3>
+          <p>Durable, natural-looking restorations to replace missing teeth and strengthen severely damaged ones.</p>
         </div>
 
-        <h3 class="text-lg md:text-xl font-serif font-bold text-black mb-2 text-center">
-            Madukkakuzhy Dental Care
-        </h3>
-
-        <div class="px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
-            <p class="text-xs tracking-widest uppercase font-bold">Healthcare</p>
-        </div>
-    </a>
-
-    <!-- Card 2 -->
-    <a href="" target="_blank"
-       class="inline-flex flex-col items-center justify-center p-8 md:p-12 bg-white rounded-3xl shadow-soft border border-gray-100 transition-transform duration-500 hover:scale-105 w-64">
-
-        <div class="w-24 h-24 mb-6 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
-            <img src="endoroot.png" alt="Endoroot Dental Clinic Logo"
-                 class="w-16 h-16 object-contain mix-blend-multiply">
+        <!-- Tooth-Colored Restorations -->
+        <div class="service-card reveal-scale" data-delay="960">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 16 C16 10 20 8 24 10 C28 8 32 10 32 16 C34 22 32 32 28 40 C26 44 22 44 20 40 C16 32 14 22 16 16Z" stroke="currentColor" stroke-width="2.2" />
+              <path d="M16 16 C16 10 20 8 24 10 V24 L14.5 22 C14.5 19 15 17 16 16Z" fill="currentColor" opacity="0.4" />
+              <path d="M36 14 L37.5 10.5 L41 9 L37.5 7.5 L36 4 L34.5 7.5 L31 9 L34.5 10.5 Z" fill="currentColor" opacity="0.8" />
+            </svg>
+          </div>
+          <h3>Tooth-Colored Restorations</h3>
+          <p>Aesthetic composite fillings and restorations that blend seamlessly with your natural smile.</p>
         </div>
 
-        <h3 class="text-lg md:text-xl font-serif font-bold text-black mb-2 text-center">
-            Endoroot Dental Clinic
-        </h3>
-
-        <div class="px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
-            <p class="text-xs tracking-widest uppercase font-bold">Healthcare</p>
+        <!-- Check-Up -->
+        <div class="service-card reveal-scale" data-delay="560">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M10 12 C10 8 14 6 18 8 C19.5 8.8 21 10 21 10 C21 10 22.5 8.8 24 8 C28 6 32 8 32 12 C34 18 32 27 28 35 C26 40 23 42 21 42 C19 42 16 40 14 35 C10 27 8 18 10 12Z"
+                fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <circle cx="36" cy="20" r="7" stroke="currentColor" stroke-width="2.5" />
+              <line x1="41" y1="25" x2="45" y2="30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h3>Dental Check-Up</h3>
+          <p>Thorough examinations and preventive care to catch issues early and protect your oral health.</p>
         </div>
-    </a>
 
-</div>
-
-
-
+        <!-- Dental Cleaning -->
+        <div class="service-card reveal-scale" data-delay="80">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M12 10 C12 6 16 4 20 6 C22 7 24 8 24 8 C24 8 26 7 28 6 C32 4 36 6 36 10 C38 16 36 26 32 36 C30 42 26 44 24 44 C22 44 18 42 16 36 C12 26 10 16 12 10Z"
+                fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <path d="M12 10 C16 12 20 11 24 11 C28 11 32 12 36 10" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" />
+              <path d="M38 8 L39 5 L40 8 L43 9 L40 10 L39 13 L38 10 L35 9Z" fill="currentColor" opacity="0.75" />
+            </svg>
+          </div>
+          <h3>Dental Cleaning</h3>
+          <p>Professional scaling, polishing and oral hygiene coaching to keep your smile healthy and radiant.</p>
         </div>
-    </section>
 
-    <footer id="contact" class="py-16 px-6 bg-black text-white">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
-            
-            <div>
-                <a href="#" class="text-3xl font-bold tracking-tighter text-white">AYRASOFT</a>
-                <p class="text-gray-400 text-sm mt-4 max-w-xs">
-                    Engineering the future of digital interaction. <br/>Kerala, India.
-                </p>
-            </div>
-
-            <div class="flex flex-col md:items-end gap-4">
-                
-                <div class="flex space-x-8 text-sm font-medium text-gray-400">
-                    <a href="https://wa.me/917306201272" target="_blank" class="hover:text-white transition-colors">WhatsApp</a>
-                    <a href="https://www.instagram.com/ayrasoft/" target="_blank" class="hover:text-white transition-colors">Instagram</a>
-                    <a href="mailto:ayrasoftglobal@gmail.com" class="hover:text-white transition-colors">Email</a>
-                </div>
-
-                <a href="tel:+917306201272" class="text-2xl font-mono font-light text-white hover:text-gray-300 transition-colors">
-                    +91 7306 201 272
-                </a>
-                <a href="tel:+917306201272" class="text-2xl font-mono font-light text-white hover:text-gray-300 transition-colors">
-                    +91 6282 359 225
-                </a>
-
-                <p class="text-gray-600 text-xs mt-2">© 2025 AyraSoft Inc. All rights reserved.</p>
-            </div>
+        <!-- Teeth Whitening -->
+        <div class="service-card reveal-scale" data-delay="160">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M14 10 C14 6 18 4 22 6 C23 6.5 24 7 24 7 C24 7 25 6.5 26 6 C30 4 34 6 34 10 C36 16 34 26 30 34 C28 40 26 42 24 42 C22 42 20 40 18 34 C14 26 12 16 14 10Z"
+                fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <line x1="38" y1="14" x2="42" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                opacity="0.85" />
+              <line x1="40" y1="20" x2="45" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                opacity="0.85" />
+              <line x1="37" y1="8" x2="38" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                opacity="0.85" />
+            </svg>
+          </div>
+          <h3>Teeth Whitening</h3>
+          <p>Advanced whitening treatments that deliver brilliant, long-lasting results safely and effectively.</p>
         </div>
-    </footer>
 
-    <script>
-        // --- 1. MOBILE MENU LOGIC ---
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
+        <!-- Dental Veneers -->
+        <div class="service-card reveal-scale" data-delay="240">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M13 11 C13 7 17 5 21 7 C22.5 7.8 24 9 24 9 C24 9 25.5 7.8 27 7 C31 5 35 7 35 11 C37 17 35 27 31 36 C29 41 26 43 24 43 C22 43 19 41 17 36 C13 27 11 17 13 11Z"
+                fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="2.2" />
+              <path
+                d="M13 11 C13 7 17 5 21 7 C22.5 7.8 24 9 24 9 C24 9 25.5 7.8 27 7 C31 5 35 7 35 11 L35 20 C31 20 27 21 24 21 C21 21 17 20 13 20Z"
+                fill="currentColor" opacity="0.5" />
+              <path d="M13 11 C13 7 17 5 21 7 C22.5 7.8 24 9 24 9 C24 9 25.5 7.8 27 7 C31 5 35 7 35 11"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h3>Dental Veneers</h3>
+          <p>Porcelain veneers crafted to perfection for a transformed, natural-looking smile.</p>
+        </div>
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-        });
+         <!-- Paediatric Treatments -->
+        <div class="service-card reveal-scale" data-delay="0">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 12 C16 8.5 19 7 22 8.5 C23 9 24 10 24 10 C24 10 25 9 26 8.5 C29 7 32 8.5 32 12 C33.5 17 32 25 28.5 32 C27 36 25.5 38 24 38 C22.5 38 21 36 19.5 32 C16 25 14.5 17 16 12Z" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <path d="M39 6 L40.2 9.5 L44 9.5 L41 11.8 L42.2 15.3 L39 13 L35.8 15.3 L37 11.8 L34 9.5 L37.8 9.5Z" fill="currentColor" opacity="0.8" />
+            </svg>
+          </div>
+          <h3>Paediatric Treatments</h3>
+          <p>Gentle, child-friendly dental care designed to build healthy habits and keep little smiles bright from the very first tooth.</p>
+        </div>
 
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-                menu.classList.remove('flex');
-            });
-        });
-
-        // --- 2. GSAP ANIMATIONS ---
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero Stagger Animation
-        gsap.to(".gsap-hero", {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.15,
-            ease: "power4.out",
-            delay: 0.2
-        });
-
-        // Services Fade Up
-        gsap.utils.toArray('.service-card').forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 90%",
-                },
-                y: 30,
-                opacity: 0,
-                duration: 1,
-                ease: "power2.out",
-                delay: i * 0.1
-            });
-        });
-
-        // --- TYPEWRITER ANIMATION LOGIC ---
-        // This function triggers when the user scrolls to the #products section
-        const textToType = "Browse through our crafted experiences.";
-        const typewriterElement = document.getElementById("typewriter-text");
-        let isTyping = false;
-
-        ScrollTrigger.create({
-            trigger: "#products",
-            start: "top 60%", // Starts when top of section hits 60% of viewport
-            onEnter: () => {
-                if(!isTyping && typewriterElement.innerText === "") {
-                    isTyping = true;
-                    typeWriter(textToType, 0);
-                }
-            }
-        });
-
-        function typeWriter(text, i) {
-            if (i < text.length) {
-                // Add character and keeping the cursor
-                typewriterElement.innerHTML = text.substring(0, i+1) + '<span class="cursor-blink"></span>';
-                setTimeout(function() {
-                    typeWriter(text, i + 1)
-                }, 50); // Adjust typing speed here (50ms)
-            } else {
-                // Keep cursor blinking at the end
-                typewriterElement.innerHTML = text + '<span class="cursor-blink"></span>';
-            }
-        }
-
-        // --- 3. THREE.JS BACKGROUND ---
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xffffff);
-        scene.fog = new THREE.FogExp2(0xffffff, 0.0035);
-
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
+        <!-- Periodontic Treatments -->
+        <div class="service-card reveal-scale" data-delay="80">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 16 C16 10 20 8 24 10 C28 8 32 10 32 16 C34 22 32 32 28 40 C26 44 22 44 20 40 C16 32 14 22 16 16Z" stroke="currentColor" stroke-width="2.2" />
+              <path d="M13 24 C18 22 22 26 24 26 C26 26 30 22 35 24 C33 34 28 42 24 42 C20 42 15 34 13 24Z" fill="currentColor" opacity="0.15" />
+              <path d="M13 24 C18 22 22 26 24 26 C26 26 30 22 35 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h3>Periodontic Treatments</h3>
+          <p>Expert care for your gums, treating inflammation and disease to ensure a strong, healthy foundation for your teeth.</p>
+        </div>
         
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const geometry = new THREE.IcosahedronGeometry(12, 1);
-        const material = new THREE.MeshBasicMaterial({ 
-            color: 0x111111,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.05
-        });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
+        <!-- Orthodontics -->
+        <div class="service-card reveal-scale" data-delay="400">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="5" y="10" width="11" height="18" rx="5.5" fill="currentColor" opacity="0.15"
+                stroke="currentColor" stroke-width="2" />
+              <rect x="18" y="8" width="12" height="20" rx="6" fill="currentColor" opacity="0.15" stroke="currentColor"
+                stroke-width="2" />
+              <rect x="32" y="10" width="11" height="18" rx="5.5" fill="currentColor" opacity="0.15"
+                stroke="currentColor" stroke-width="2" />
+              <line x1="5" y1="19" x2="43" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <rect x="8" y="16" width="5" height="6" rx="1.2" fill="currentColor" opacity="0.9" />
+              <rect x="21" y="16" width="6" height="6" rx="1.2" fill="currentColor" opacity="0.9" />
+              <rect x="35" y="16" width="5" height="6" rx="1.2" fill="currentColor" opacity="0.9" />
+            </svg>
+          </div>
+          <h3>Orthodontics</h3>
+          <p>Clear aligners and traditional braces to straighten teeth and correct bite issues at any age.</p>
+        </div>
 
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 800;
-        const posArray = new Float32Array(particlesCount * 3);
+        <!-- Extractions & Impactions -->
+        <div class="service-card reveal-scale" data-delay="720">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 16 C16 10 20 8 24 10 C28 8 32 10 32 16 C34 22 32 32 28 40 C26 44 22 44 20 40 C16 32 14 22 16 16Z" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <path d="M24 26 L24 6 M18 12 L24 6 L30 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3>Extractions & Impactions</h3>
+          <p>Safe and painless removal of problematic, severely decayed, or impacted wisdom teeth.</p>
+        </div>
 
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 60;
-        }
+        <!-- Laser Therapy & Surgeries -->
+        <div class="service-card reveal-scale" data-delay="800">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M18 20 C18 14 22 12 26 14 C30 12 34 14 34 20 C36 26 34 36 30 40 C28 44 24 44 22 40 C18 36 16 26 18 20Z" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 4" />
+              <circle cx="20" cy="20" r="3" fill="currentColor" opacity="0.8" />
+            </svg>
+          </div>
+          <h3>Laser Therapy & Surgeries</h3>
+          <p>Minimally invasive laser treatments for precise, virtually painless gum and soft tissue procedures.</p>
+        </div>
 
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.05,
-            color: 0x000000,
-            transparent: true,
-            opacity: 0.2
-        });
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
+        <!-- Geriatric Dentistry -->
+        <div class="service-card reveal-scale" data-delay="880">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M24 4 L38 10 V24 C38 34 24 44 24 44 C24 44 10 34 10 24 V10 L24 4Z" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+              <path d="M24 18 C24 16 22 14 20 14 C17.5 14 16 16 16 18.5 C16 22 24 28 24 28 C24 28 32 22 32 18.5 C32 16 30.5 14 28 14 C26 14 24 16 24 18Z" fill="currentColor" opacity="0.8" />
+            </svg>
+          </div>
+          <h3>Geriatric Dentistry</h3>
+          <p>Specialized, compassionate dental care tailored to the unique oral health and comfort needs of older adults.</p>
+        </div>
+ 
+       
 
-        camera.position.z = 20;
+        <!-- Dentures & Prosthetics -->
+        <div class="service-card reveal-scale" data-delay="160">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 26 C12 16 18 12 24 12 C30 12 36 16 36 26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+              <path d="M14 26 C14 20 18 17 24 17 C30 17 34 20 34 26" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+              <line x1="24" y1="17" x2="24" y2="26" stroke="currentColor" stroke-width="2.2" />
+              <line x1="19" y1="18" x2="19" y2="26" stroke="currentColor" stroke-width="2.2" />
+              <line x1="29" y1="18" x2="29" y2="26" stroke="currentColor" stroke-width="2.2" />
+            </svg>
+          </div>
+          <h3>Dentures & Prosthetics</h3>
+          <p>Custom-crafted complete and partial dentures designed for a comfortable, secure fit and a highly natural look.</p>
+        </div>
 
-        let mouseX = 0;
-        let mouseY = 0;
+        <!-- Emergency Dental Care -->
+        <div class="service-card reveal-scale" data-delay="240">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 16 C16 10 20 8 24 10 C28 8 32 10 32 16 C34 22 32 32 28 40 C26 44 22 44 20 40 C16 32 14 22 16 16Z" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2.2" />
+              <path d="M24 18 L24 28 M19 23 L29 23" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+              <circle cx="36" cy="12" r="6" fill="currentColor" opacity="0.8" />
+            </svg>
+          </div>
+          <h3>Emergency Dental Care</h3>
+          <p>Prompt, priority treatment for severe toothaches, chipped teeth, and other urgent oral health situations.</p>
+        </div>
 
-        document.addEventListener('mousemove', (event) => {
-            mouseX = event.clientX / window.innerWidth - 0.5;
-            mouseY = event.clientY / window.innerHeight - 0.5;
-        });
+      </div>
+    </div>
+  </section>
 
-        const animate = function () {
-            requestAnimationFrame(animate);
-            sphere.rotation.y += 0.001;
-            sphere.rotation.x += 0.0005;
-            particlesMesh.rotation.y = -mouseX * 0.2;
-            particlesMesh.rotation.x = -mouseY * 0.2;
-            camera.position.x += (mouseX * 1 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 1 - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-            renderer.render(scene, camera);
-        };
+  <!-- ===== WHY CHOOSE US ===== -->
+  <section class="why-us">
+    <div class="container">
+      <div class="why-us-inner">
+        <div class="why-us-text reveal reveal-left">
+          <div class="section-label light">Why Choose Us</div>
+          <h2 class="section-title light">Dentistry That Puts You First</h2>
+          <p class="why-desc">At Endoroot, we believe exceptional dental care is about more than just treatment — it's
+            about the entire experience. We've built our practice around your comfort, your time and your trust.</p>
+          <div class="why-pillars">
+            <div class="pillar">
+              <div class="pillar-num">01</div>
+              <div class="pillar-info">
+                <h4>State-of-the-Art Technology</h4>
+                <p>Digital X-rays, laser dentistry, and modern sterilisation systems for precise, safe care.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-num">02</div>
+              <div class="pillar-info">
+                <h4>Expert Specialists</h4>
+                <p>Our multidisciplinary team covers every dental specialty under one roof.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-num">03</div>
+              <div class="pillar-info">
+                <h4>Comfortable Environment</h4>
+                <p>A luxurious, calming clinic space designed to ease even the most anxious patients.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="why-us-image reveal reveal-right">
+          <img src="images/interiour horiz og.jpeg" alt="Endoroot Clinic Interior" />
+        </div>
+      </div>
+    </div>
+  </section>
 
-        animate();
+  <!-- ===== GALLERY ===== -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Our Clinic</div><br>
+        <h2 class="section-title">A Space Designed for Comfort</h2>
+        <p class="section-subtitle">Step inside and feel the difference of a truly premium dental experience.</p>
+      </div>
+      <div class="gallery-masonry">
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
+        <!-- Row 1: large + 2 stacked -->
+        <div class="gallery-item gallery-tall reveal reveal-left">
+          <img src="images/reception.jpeg" alt="Clinic Reception" loading="lazy" />
+          <div class="gallery-caption">Main Reception</div>
+        </div>
+        <div class="gallery-item reveal reveal-scale" data-delay="80">
+          <img src="images/inaguration2.jpeg" alt="Clinic View" loading="lazy" />
+          <div class="gallery-caption">Inauguration</div>
+        </div>
+        <div class="gallery-item reveal reveal-scale" data-delay="160">
+          <img src="images/inaguration1.jpeg" alt="Treatment Area" loading="lazy" />
+          <div class="gallery-caption"></div>
+        </div>
+
+        <!-- Row 2: wide + wide -->
+        <div class="gallery-item gallery-wide reveal reveal-left" data-delay="80">
+          <img src="images/sofainteriour horiz.jpeg" alt="Clinic Waiting Area" loading="lazy" />
+          <div class="gallery-caption">Patient Lounge</div>
+        </div>
+        <div class="gallery-item gallery-wide reveal reveal-right" data-delay="80">
+          <img src="images/inaguration5.jpeg" alt="Interior" loading="lazy" />
+          <div class="gallery-caption"></div>
+        </div>
+
+        <!-- Row 3: 3 equal -->
+        <div class="gallery-item reveal reveal-scale" data-delay="0">
+          <img src="images/interiour horiz og.jpeg" alt="Interior" loading="lazy" />
+          <div class="gallery-caption">Treatment Area</div>
+        </div>
+        <div class="gallery-item reveal reveal-scale" data-delay="100">
+          <img src="images/inaguration3.jpeg" alt="Clinic Space" loading="lazy" />
+          <div class="gallery-caption"></div>
+        </div>
+        <div class="gallery-item reveal reveal-scale" data-delay="200">
+          <img src="images/inaguration4.jpeg" alt="Premium Environment"
+            loading="lazy" />
+          <div class="gallery-caption"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Patient Stories</div><br>
+        <h2 class="section-title">What Our Patients Say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal-scale">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-text">"The best dental experience I've ever had. The clinic is spotless, the team is so
+            kind and my root canal was completely painless. Highly recommended!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div>
+              <div class="author-name">Arjun Menon</div>
+              <div class="author-location">Mannoor</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card featured reveal-scale">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-text">"Endoroot transformed my smile with veneers and I couldn't be happier. The results
+            are absolutely stunning and so natural-looking. Thank you!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">P</div>
+            <div>
+              <div class="author-name">Priya Varghese</div>
+              <div class="author-location">Muvattupuzha</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal-scale">
+          <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-text">"My children actually look forward to their dental appointments now! The staff is
+            wonderful with kids and the clinic feels so welcoming."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">S</div>
+            <div>
+              <div class="author-name">Sreeja Thomas</div>
+              <div class="author-location">Kothamangalam</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPOINTMENT ===== -->
+  <section class="appointment" id="appointment">
+    <div class="container">
+      <div class="appointment-cta reveal">
+        <div class="appt-cta-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+        </div>
+        <div class="section-label light">Book an Appointment</div>
+        <h2 class="section-title light">Ready for Your Best Smile?</h2>
+        <p class="appt-cta-desc">Connect with us instantly on WhatsApp. Our team will help you choose the right service
+          and confirm a time that suits you — all in a few messages.</p>
+        <a href="https://wa.me/919746798966?text=Hi%2C%20I%20want%20to%20book%20an%20Appointment" target="_blank"
+          rel="noopener" class="appt-btn-box">
+          <div class="appt-btn-box-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+          </div>
+          <div class="appt-btn-box-text">
+            <span class="appt-btn-box-title">Book an Appointment</span>
+            <span class="appt-btn-box-sub">Tap to chat with us on WhatsApp</span>
+          </div>
+          <div class="appt-btn-box-arrow">&#8599;</div>
+        </a>
+        <div class="appt-meta">
+          <span>Mon &#8211; Sat: 9 AM &#8211; 7 PM</span>
+          <span class="appt-meta-dot">&middot;</span>
+          <span>Instant Confirmation</span>
+          <span class="appt-meta-dot">&middot;</span>
+          <span>Mannoor, Kerala</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Find Us</div><br>
+        <h2 class="section-title">Visit Endoroot Dental Clinic</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info reveal reveal-left">
+          <div class="contact-card">
+            <div class="contact-icon">&#128205;</div>
+            <div>
+              <h4>Address</h4><p>Endoroot Dental Clinic<br />
+               Ground Floor, Kuttikattil Building<br />
+               M.C Road, Near Smart Textiles<br />
+               Mannoor, Airapuram P.O<br />
+               Ernakulam, Kerala, India
+               </p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">&#128222;</div>
+            <div>
+              <h4>Phone</h4>
+              <p><a href="tel:+919746798966">+91 97467 98966</a></p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">&#9993;&#65039;</div>
+            <div>
+              <h4>Email</h4>
+              <p><a href="mailto:endorootdc@gmail.com">endorootdc@gmail.com</a></p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">&#128343;</div>
+            <div>
+              <h4>Working Hours</h4>
+              <p>Monday &#8211; Saturday: 9 AM &#8211; 7 PM<br />Sunday: By Appointment</p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-map reveal reveal-right">
+          <iframe title="Endoroot Dental Clinic Location Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7376.664885280636!2d76.52834817159695!3d10.045937526909277!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b07e1768b29e6a7%3A0x104a290be2e702e5!2sEndoroot%20Dental%20Clinic!5e0!3m2!1sen!2sin!4v1771949021791!5m2!1sen!2sin"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="footer-logo">
+            <img src="images/logo.png" alt="Endoroot Logo" />
+            <span>
+              <span class="brand-main">Endoroot</span>
+              <span class="brand-sub">Dental Clinic</span>
+            </span>
+          </a>
+          <p class="footer-desc">Delivering premium dental care with compassion and precision in the heart of Mannoor,
+            Kerala.</p>
+          <div class="social-links">
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/endoroot_dental_clinic?igsh=MnM3Mm16cDE1YTh2" target="_blank"
+              rel="noopener" class="social-btn social-btn--insta" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <circle cx="12" cy="12" r="4.5" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+            <!-- WhatsApp -->
+            <a href="https://wa.me/919746798966?text=Hi%2C%20I%20want%20to%20book%20an%20Appointment" target="_blank"
+              rel="noopener" class="social-btn social-btn--wa" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+            </a>
+            <!-- Email -->
+            <a href="mailto:endorootdc@gmail.com" class="social-btn social-btn--mail" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <polyline points="2,4 12,13 22,4" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#appointment">Appointment</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="#services">Root Canal</a></li>
+            <li><a href="#services">Dental Implants</a></li>
+            <li><a href="#services">Teeth Whitening</a></li>
+            <li><a href="#services">Orthodontics</a></li>
+            <li><a href="#services">Paediatric Dentistry</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h5>Contact</h5>
+          <p>Endoroot Dental Clinic<br />
+               Ground Floor, Kuttikattil Building<br />
+               M.C Road, Near Smart Textiles<br />
+               Mannoor, Airapuram P.O<br />
+               Ernakulam, Kerala, India
+          </p>
+          <p><a href="tel:+919746798966">+91 97467 98966</a></p>
+          <p><a href="mailto:endorootdc@gmail.com">endorootdc@gmail.com</a></p>
+          <p>Mon&#8211;Sat: 9 AM &#8211; 7 PM</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Endoroot Dental Clinic, Mannoor. All rights reserved.</p>
+        <p style="font-size:14px; color:#8a8a8a; letter-spacing:0.5px; margin:0;">
+          Developed by
+          <a href="https://ayrasoft.vercel.app" target="_blank" rel="noopener"
+            style="color:#1e3a8a; text-decoration:none; font-weight:500; transition:opacity 0.3s ease;">
+            AyraSoft
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/919746798966?text=Hi%2C%20I%20want%20to%20book%20an%20Appointment" class="whatsapp-float"
+    target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  </a>
+
+  <script src="script.js"></script>
 </body>
+
 </html>
